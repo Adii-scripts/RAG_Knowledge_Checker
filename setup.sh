@@ -1,95 +1,76 @@
 #!/bin/bash
 
-# RAG Knowledge Base Setup Script
-echo "🚀 Setting up RAG Knowledge Base..."
+# 🚀 RAG Knowledge Base Setup Script
+# This script sets up the entire RAG Knowledge Base system
 
-# Check if required tools are installed
-check_requirements() {
-    echo "📋 Checking requirements..."
-    
-    if ! command -v python3 &> /dev/null; then
-        echo "❌ Python 3.9+ is required but not installed."
-        exit 1
-    fi
-    
-    if ! command -v node &> /dev/null; then
-        echo "❌ Node.js 18+ is required but not installed."
-        exit 1
-    fi
-    
-    if ! command -v npm &> /dev/null; then
-        echo "❌ npm is required but not installed."
-        exit 1
-    fi
-    
-    echo "✅ All requirements satisfied"
-}
+echo "🧠 Setting up RAG Knowledge Base..."
+echo "=================================="
 
-# Setup backend
-setup_backend() {
-    echo "🔧 Setting up backend..."
-    
-    cd backend
-    
-    # Create virtual environment
-    python3 -m venv venv
-    source venv/bin/activate
-    
-    # Install dependencies
-    pip install --upgrade pip
-    pip install -r requirements.txt
-    
-    # Create necessary directories
-    mkdir -p uploads logs chroma_db
-    
-    echo "✅ Backend setup complete"
-    cd ..
-}
+# Check if Python is installed
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Python 3 is required but not installed."
+    exit 1
+fi
 
-# Setup frontend
-setup_frontend() {
-    echo "🎨 Setting up frontend..."
-    
-    cd frontend
-    
-    # Install dependencies
-    npm install
-    
-    echo "✅ Frontend setup complete"
-    cd ..
-}
+# Check if Node.js is installed
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js is required but not installed."
+    exit 1
+fi
 
-# Setup environment
-setup_environment() {
-    echo "⚙️ Setting up environment..."
-    
-    if [ ! -f .env ]; then
-        cp .env.example .env
-        echo "📝 Created .env file from template"
-        echo "⚠️  Please edit .env and add your OpenAI API key"
-    else
-        echo "✅ .env file already exists"
-    fi
-}
+echo "✅ Prerequisites check passed"
 
-# Main setup function
-main() {
-    check_requirements
-    setup_environment
-    setup_backend
-    setup_frontend
-    
-    echo ""
-    echo "🎉 Setup complete!"
-    echo ""
-    echo "Next steps:"
-    echo "1. Edit .env file and add your OpenAI API key"
-    echo "2. Start the backend: cd backend && source venv/bin/activate && uvicorn main:app --reload"
-    echo "3. Start the frontend: cd frontend && npm start"
-    echo "4. Open http://localhost:3000 in your browser"
-    echo ""
-    echo "Or use Docker: docker-compose up --build"
-}
+# Setup Backend
+echo ""
+echo "🔧 Setting up Backend..."
+cd backend
 
-# Run main function
-main
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Copy environment file
+if [ ! -f .env ]; then
+    cp .env.example .env
+    echo "📝 Created .env file - you can add your OpenAI API key (optional)"
+fi
+
+echo "✅ Backend setup complete"
+
+# Setup Frontend
+echo ""
+echo "🎨 Setting up Frontend..."
+cd ../frontend
+
+# Install Node.js dependencies
+npm install
+
+echo "✅ Frontend setup complete"
+
+# Back to root
+cd ..
+
+echo ""
+echo "🎉 Setup Complete!"
+echo "=================="
+echo ""
+echo "🚀 To start the application:"
+echo ""
+echo "1. Start Backend (Terminal 1):"
+echo "   cd backend"
+echo "   source venv/bin/activate"
+echo "   uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+echo ""
+echo "2. Start Frontend (Terminal 2):"
+echo "   cd frontend"
+echo "   npm start"
+echo ""
+echo "3. Open your browser:"
+echo "   Frontend: http://localhost:3000"
+echo "   Backend API: http://localhost:8000/docs"
+echo ""
+echo "📚 For more information, check README.md"
+echo "🐛 Issues? Visit: https://github.com/Adii-scripts/RAG_Knowledge_Checker/issues"
