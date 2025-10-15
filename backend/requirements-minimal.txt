@@ -1,0 +1,23 @@
+# Minimal requirements that should work with Python 3.13
+fastapi
+uvicorn[standard]
+python-multipart
+openai
+tiktoken
+PyPDF2
+python-docx
+python-dotenv
+pydantic
+pydantic-settings
+aiofiles
+httpx
+loguru
+
+# For simple vector service fallback
+scikit-learn
+
+# These might need manual installation on Python 3.13
+# chromadb
+# sentence-transformers
+# numpy
+# pandas
